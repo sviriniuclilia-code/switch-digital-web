@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/liliasviriniuc/Documents/GitHub/switch-digital-web/app/layout\":[\"static/media/d73b390dc2633c93-s.p.ttf\",\"static/media/ecf729077cedfaf0-s.p.ttf\",\"static/media/e33b242085fea3bf-s.p.ttf\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"

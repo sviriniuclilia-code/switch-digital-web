@@ -77,8 +77,8 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
           <a href="#top"><Logo /></a>
           <nav className="hidden items-center gap-8 text-sm font-medium text-ink md:flex">
             <a className="hover:text-cyan-dark" href="#servicii">{t.nav.services}</a>
-            <a className="hover:text-cyan-dark" href="#despre">{t.nav.about}</a>
             <a className="hover:text-cyan-dark" href="#proces">{t.nav.process}</a>
+            <a className="hover:text-cyan-dark" href="#despre">{t.nav.about}</a>
             <a className="hover:text-cyan-dark" href="#contact">{t.nav.contact}</a>
           </nav>
           <div className="flex items-center gap-3">
