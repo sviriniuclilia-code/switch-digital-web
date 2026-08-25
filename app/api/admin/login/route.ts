@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { db } from "@/lib/db";
+import { db, ensureSchema } from "@/lib/db";
 import { adminUsers } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { loginSchema } from "@/lib/validation";
@@ -17,6 +17,7 @@ async function ensureAdmin() {
   const password = process.env.ADMIN_PASSWORD || "";
   if (!email || !password) return;
   try {
+    await ensureSchema();
     const existing = await db.select({ id: adminUsers.id }).from(adminUsers).limit(1);
     if (existing.length) return;
     const hash = await bcrypt.hash(password, 12);

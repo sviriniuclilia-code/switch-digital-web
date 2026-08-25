@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { db } from "@/lib/db";
+import { db, ensureSchema } from "@/lib/db";
 import { siteContent } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { verifySession, SESSION_COOKIE } from "@/lib/auth";
@@ -26,6 +26,7 @@ export async function PUT(req: Request) {
   if (!body || !body.ro || !body.en || !body.info) {
     return NextResponse.json({ ok: false, error: "Date incomplete." }, { status: 400 });
   }
+  await ensureSchema();
   const existing = await db.select({ id: siteContent.id }).from(siteContent).where(eq(siteContent.id, 1)).limit(1);
   if (existing.length) {
     await db.update(siteContent).set({ ro: body.ro, en: body.en, info: body.info, updatedAt: new Date() }).where(eq(siteContent.id, 1));

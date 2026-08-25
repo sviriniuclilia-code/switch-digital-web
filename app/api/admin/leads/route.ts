@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { db } from "@/lib/db";
+import { db, ensureSchema } from "@/lib/db";
 import { leads } from "@/lib/schema";
 import { desc, eq } from "drizzle-orm";
 import { verifySession, SESSION_COOKIE } from "@/lib/auth";
@@ -15,6 +15,7 @@ async function requireAdmin() {
 
 export async function GET() {
   if (!(await requireAdmin())) return NextResponse.json({ ok: false }, { status: 401 });
+  await ensureSchema();
   const rows = await db.select().from(leads).orderBy(desc(leads.createdAt)).limit(500);
   return NextResponse.json({ ok: true, leads: rows });
 }

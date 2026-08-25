@@ -1,5 +1,5 @@
 import "server-only";
-import { db } from "./db";
+import { db, ensureSchema } from "./db";
 import { siteContent } from "./schema";
 import { eq } from "drizzle-orm";
 import { content, contactInfo } from "./content";
@@ -19,6 +19,7 @@ export const defaults: SiteData = {
 /** Conținutul efectiv: din baza de date dacă există, altfel valorile implicite. */
 export async function getSiteContent(): Promise<SiteData> {
   try {
+    await ensureSchema();
     const rows = await db.select().from(siteContent).where(eq(siteContent.id, 1)).limit(1);
     if (rows.length) {
       const r = rows[0];

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db, ensureSchema } from "@/lib/db";
 import { leads } from "@/lib/schema";
 import { leadSchema } from "@/lib/validation";
 import { rateLimit, clientIp } from "@/lib/ratelimit";
@@ -32,6 +32,7 @@ export async function POST(req: Request) {
 
   const { name, email, phone, message } = parsed.data;
   try {
+    await ensureSchema();
     await db.insert(leads).values({
       name,
       email,
