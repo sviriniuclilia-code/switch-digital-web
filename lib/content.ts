@@ -14,7 +14,7 @@ export const content = {
     stats: [
       { k: "100%", v: "Soluții pe măsură" },
       { k: "4 pași", v: "De la analiză la suport" },
-      { k: "0 jargon", v: "Explicații pe înțeles" },
+      { k: "0 complicații", v: "Totul explicat simplu" },
     ],
     services: {
       eyebrow: "Servicii",
@@ -54,7 +54,7 @@ export const content = {
       mission: "Să facem tehnologia performantă accesibilă oricărei afaceri — de la primul pas în digitalizare până la sisteme integrate.",
       founderName: "Lilia Sviriniuc",
       founderRole: "Fondator",
-      founderBio: "Manager cu experiență în coordonarea echipelor mari, pe care le-a optimizat și digitalizat. Experiența ulterioară în IT i-a adăugat structura și consecvența de care are nevoie orice proces de digitalizare. A implementat un sistem ERP într-o companie medie din Moldova — și aduce aceeași abordare la Switch Digital.",
+      founderBio: "Manager cu experiență în coordonarea echipelor mari, pe care le-a optimizat și digitalizat. Experiența ulterioară în IT i-a adăugat structura și consecvența de care are nevoie orice proces de digitalizare. A implementat sisteme ERP în companii din Moldova — și aduce aceeași abordare, practică și orientată spre rezultat, la Switch Digital.",
     },
     contact: {
       eyebrow: "Contact",
@@ -89,7 +89,7 @@ export const content = {
     stats: [
       { k: "100%", v: "Tailored solutions" },
       { k: "4 steps", v: "From analysis to support" },
-      { k: "0 jargon", v: "Clear explanations" },
+      { k: "0 hassle", v: "Everything explained simply" },
     ],
     services: {
       eyebrow: "Services",
@@ -129,7 +129,7 @@ export const content = {
       mission: "To make high-performing technology accessible to any business — from the first step in digitization to integrated systems.",
       founderName: "Lilia Sviriniuc",
       founderRole: "Founder",
-      founderBio: "A manager experienced in leading large teams, which she optimized and digitized. Her later IT experience added the structure and consistency any digitization process needs. She implemented an ERP system in a mid-sized company in Moldova — and brings the same approach to Switch Digital.",
+      founderBio: "A manager experienced in leading large teams, which she optimized and digitized. Her later IT experience added the structure and consistency any digitization process needs. She has implemented ERP systems in companies in Moldova — and brings the same practical, results-driven approach to Switch Digital.",
     },
     contact: {
       eyebrow: "Contact",

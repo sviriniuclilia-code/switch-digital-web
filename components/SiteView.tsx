@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { Lang } from "@/lib/content";
 
 /* ---------- icons ---------- */
@@ -18,17 +18,66 @@ const I = {
 };
 
 function Logo({ dark = false }: { dark?: boolean }) {
+  // dark = pe fundal închis (pătrat alb, „S" închis, text alb)
   return (
     <span className="inline-flex items-center gap-2.5">
-      <span className="relative grid h-9 w-9 place-items-center rounded-[10px] bg-ink">
-        <span className="text-lg font-bold leading-none text-white">S</span>
+      <span className={`relative grid h-9 w-9 place-items-center rounded-[10px] transition-colors duration-300 ${dark ? "bg-white" : "bg-ink"}`}>
+        <span className={`text-lg font-bold leading-none transition-colors duration-300 ${dark ? "text-ink" : "text-white"}`}>S</span>
         <span className="absolute bottom-1.5 right-1.5 h-1 w-2.5 rounded-full bg-cyan" />
       </span>
-      <span className={`text-lg font-bold tracking-tight ${dark ? "text-white" : "text-ink"}`}>
-        Switch <span className="text-cyan-dark">Digital</span>
+      <span className={`text-lg font-bold tracking-tight transition-colors duration-300 ${dark ? "text-white" : "text-ink"}`}>
+        Switch <span className={`transition-colors duration-300 ${dark ? "text-cyan-light" : "text-cyan-dark"}`}>Digital</span>
       </span>
     </span>
   );
+}
+
+/* Numărătoare crescătoare pentru statistici (ex. 0 → 100%) */
+function CountUp({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [display, setDisplay] = useState(value);
+
+  useEffect(() => {
+    const m = value.match(/^(\D*)(\d+)(.*)$/);
+    if (!m) { setDisplay(value); return; }
+    const prefix = m[1];
+    const target = parseInt(m[2], 10);
+    const suffix = m[3];
+    if (target === 0) { setDisplay(value); return; }
+
+    const reduce = typeof window !== "undefined" &&
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { setDisplay(value); return; }
+
+    const el = ref.current;
+    if (!el) return;
+
+    setDisplay(prefix + "0" + suffix);
+    let started = false;
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !started) {
+          started = true;
+          const dur = 1300;
+          const start = performance.now();
+          const tick = (now: number) => {
+            const p = Math.min(1, (now - start) / dur);
+            const eased = 1 - Math.pow(1 - p, 3);
+            setDisplay(prefix + Math.round(target * eased) + suffix);
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.6 });
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [value]);
+
+  return <span ref={ref}>{display}</span>;
 }
 
 type Info = { email: string; phone: string; location: string; facebook: string; linkedin: string };
@@ -36,8 +85,46 @@ type Info = { email: string; phone: string; location: string; facebook: string; 
 export default function SiteView({ data }: { data: { ro: any; en: any; info: Info } }) {
   const [lang, setLang] = useState<Lang>("ro");
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [scrolled, setScrolled] = useState(false);
   const t = data[lang];
   const info = data.info;
+
+  /* Header: transparent peste Hero, alb când derulezi în secțiunile deschise */
+  useEffect(() => {
+    const getThreshold = () => {
+      const hero = document.getElementById("top");
+      return hero ? hero.offsetHeight - 72 : 400;
+    };
+    let threshold = getThreshold();
+    const onScroll = () => setScrolled(window.scrollY > threshold);
+    const onResize = () => { threshold = getThreshold(); onScroll(); };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  /* Apariție lină la scroll pentru elementele marcate cu data-reveal */
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    if (!("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [lang]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -72,17 +159,17 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
   return (
     <main className="bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-line/70 bg-white/85 backdrop-blur">
+      <header className={`sticky top-0 z-50 border-b transition-colors duration-300 ${scrolled ? "border-line/70 bg-white/85 backdrop-blur" : "border-transparent bg-transparent"}`}>
         <div className="container-x flex h-16 items-center justify-between">
-          <a href="#top"><Logo /></a>
-          <nav className="hidden items-center gap-8 text-sm font-medium text-ink md:flex">
-            <a className="hover:text-cyan-dark" href="#servicii">{t.nav.services}</a>
-            <a className="hover:text-cyan-dark" href="#proces">{t.nav.process}</a>
-            <a className="hover:text-cyan-dark" href="#despre">{t.nav.about}</a>
-            <a className="hover:text-cyan-dark" href="#contact">{t.nav.contact}</a>
+          <a href="#top">{scrolled ? <Logo /> : <Logo dark />}</a>
+          <nav className={`hidden items-center gap-8 text-sm font-medium transition-colors duration-300 md:flex ${scrolled ? "text-ink" : "text-white"}`}>
+            <a className="transition-colors hover:text-cyan" href="#servicii">{t.nav.services}</a>
+            <a className="transition-colors hover:text-cyan" href="#proces">{t.nav.process}</a>
+            <a className="transition-colors hover:text-cyan" href="#despre">{t.nav.about}</a>
+            <a className="transition-colors hover:text-cyan" href="#contact">{t.nav.contact}</a>
           </nav>
           <div className="flex items-center gap-3">
-            <button onClick={() => setLang(lang === "ro" ? "en" : "ro")} className="rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-ink hover:border-cyan" aria-label="Change language">
+            <button onClick={() => setLang(lang === "ro" ? "en" : "ro")} className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors duration-300 ${scrolled ? "border-line text-ink hover:border-cyan" : "border-white/30 text-white hover:border-cyan"}`} aria-label="Change language">
               {lang === "ro" ? "EN" : "RO"}
             </button>
             <a href="#contact" className="btn-primary hidden sm:inline-flex">{t.cta}</a>
@@ -91,7 +178,7 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
       </header>
 
       {/* Hero */}
-      <section id="top" className="relative overflow-hidden bg-ink text-white">
+      <section id="top" className="relative -mt-16 overflow-hidden bg-ink pt-16 text-white">
         <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-cyan/10 blur-2xl" />
         <div className="container-x grid gap-12 py-20 md:grid-cols-2 md:items-center md:py-28">
           <div>
@@ -107,19 +194,35 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
             <div className="mt-12 grid max-w-md grid-cols-3 gap-4 border-t border-white/10 pt-6">
               {t.stats.map((s: any) => (
                 <div key={s.k}>
-                  <div className="text-xl font-bold text-cyan-light">{s.k}</div>
+                  <div className="text-xl font-bold text-cyan-light"><CountUp value={s.k} /></div>
                   <div className="mt-1 text-xs text-muted2">{s.v}</div>
                 </div>
               ))}
             </div>
           </div>
           <div className="relative hidden md:block">
-            <div className="mx-auto grid aspect-square max-w-sm place-items-center rounded-[2rem] border border-white/10 bg-white/[0.02]">
-              <svg viewBox="0 0 200 120" className="w-2/3">
-                <rect x="6" y="24" width="188" height="72" rx="36" fill="#1e293b" stroke="#334155" />
-                <circle cx="150" cy="60" r="34" fill="#06b6d4" />
-                <text x="150" y="73" textAnchor="middle" fontFamily="Poppins, sans-serif" fontWeight="700" fontSize="34" fill="#0f172a">S</text>
+            <div data-reveal className="switch-anim mx-auto flex aspect-square max-w-sm flex-col items-center justify-center gap-7 rounded-[2rem] border border-white/10 bg-white/[0.02] p-8">
+              <svg viewBox="0 0 200 120" className="w-3/5">
+                <rect className="switch-track" x="6" y="24" width="188" height="72" rx="36" fill="#1e293b" stroke="#334155" strokeWidth="2" />
+                <circle className="switch-ripple" cx="150" cy="60" r="34" fill="none" stroke="#06b6d4" strokeWidth="3" />
+                <circle className="switch-glow" cx="150" cy="60" r="48" fill="#06b6d4" opacity="0" />
+                <g className="switch-knob">
+                  <circle cx="150" cy="60" r="34" fill="#06b6d4" />
+                  <text x="150" y="73" textAnchor="middle" fontFamily="Poppins, sans-serif" fontWeight="700" fontSize="34" fill="#0f172a">S</text>
+                </g>
               </svg>
+              <div className="flex w-full max-w-[230px] flex-col gap-3.5">
+                {(lang === "ro"
+                  ? ["Soluții digitale", "Optimizare", "Procese stabilite"]
+                  : ["Digital solutions", "Optimization", "Established processes"]
+                ).map((label) => (
+                  <div key={label} className="switch-row flex items-center gap-2.5 text-sm">
+                    <span className="switch-dot h-2.5 w-2.5 shrink-0 rounded-full" />
+                    <span className="flex-1 text-left text-slate-300">{label}</span>
+                    <span className="switch-chk text-cyan-light">✓</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -129,13 +232,13 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
       <section id="servicii" className="bg-ground">
         <div className="container-x py-20 md:py-24">
           <span className="eyebrow">{t.services.eyebrow}</span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">{t.services.title}</h2>
-          <p className="mt-3 max-w-xl text-muted">{t.services.sub}</p>
+          <h2 data-reveal className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">{t.services.title}</h2>
+          <p data-reveal className="mt-3 max-w-xl text-muted">{t.services.sub}</p>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {t.services.items.map((s: any) => {
+            {t.services.items.map((s: any, i: number) => {
               const Icon = (I as any)[s.icon] || I.bolt;
               return (
-                <div key={s.title} className="rounded-xl2 border border-line bg-white p-7 transition hover:shadow-lg hover:shadow-ink/5">
+                <div key={s.title} data-reveal style={{ transitionDelay: `${i * 90}ms` }} className="rounded-xl2 border border-line bg-white p-7 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink/5">
                   <div className="grid h-12 w-12 place-items-center rounded-xl bg-cyan/10 text-cyan-dark"><Icon className="h-6 w-6" /></div>
                   <h3 className="mt-5 text-lg font-semibold text-ink">{s.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{s.desc}</p>
@@ -150,11 +253,11 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
       <section className="bg-white">
         <div className="container-x py-20 md:py-24">
           <span className="eyebrow">{t.values.eyebrow}</span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">{t.values.title}</h2>
+          <h2 data-reveal className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">{t.values.title}</h2>
           <div className="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-            {t.values.items.map((v: any) => (
-              <div key={v.title} className="flex gap-4">
-                <div className="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-cyan/10 text-cyan-dark">{I.check({ className: "h-4 w-4" })}</div>
+            {t.values.items.map((v: any, i: number) => (
+              <div key={v.title} data-reveal style={{ transitionDelay: `${i * 80}ms` }} className="flex gap-4">
+                <div className="value-badge mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-cyan/10 text-cyan-dark">{I.check({ className: "h-4 w-4 value-check" })}</div>
                 <div>
                   <h3 className="font-semibold text-ink">{v.title}</h3>
                   <p className="mt-1 text-sm leading-relaxed text-muted">{v.desc}</p>
@@ -169,10 +272,10 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
       <section id="proces" className="bg-ink text-white">
         <div className="container-x py-20 md:py-24">
           <span className="eyebrow text-cyan-light">{t.process.eyebrow}</span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">{t.process.title}</h2>
+          <h2 data-reveal className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">{t.process.title}</h2>
           <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {t.process.steps.map((s: any) => (
-              <div key={s.n} className="border-t border-white/15 pt-6">
+            {t.process.steps.map((s: any, i: number) => (
+              <div key={s.n} data-reveal style={{ transitionDelay: `${i * 100}ms` }} className="border-t border-white/15 pt-6">
                 <div className="font-mono text-sm font-semibold text-cyan">{s.n}</div>
                 <h3 className="mt-4 text-lg font-semibold">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted2">{s.desc}</p>
@@ -185,13 +288,13 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
       {/* About */}
       <section id="despre" className="bg-ground">
         <div className="container-x grid gap-12 py-20 md:grid-cols-2 md:items-center md:py-24">
-          <div>
+          <div data-reveal>
             <span className="eyebrow">{t.about.eyebrow}</span>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">{t.about.title}</h2>
             <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">{t.about.mission}</p>
             <div className="mt-8"><Logo /></div>
           </div>
-          <div className="rounded-xl2 border border-line bg-white p-8 shadow-lg shadow-ink/5">
+          <div data-reveal style={{ transitionDelay: "120ms" }} className="rounded-xl2 border border-line bg-white p-8 shadow-lg shadow-ink/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink/10">
             <div className="flex items-center gap-4">
               <div className="grid h-14 w-14 place-items-center rounded-full bg-cyan/10 text-lg font-bold text-cyan-dark">LS</div>
               <div>
@@ -208,10 +311,10 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
       <section id="contact" className="bg-white">
         <div className="container-x py-20 md:py-24">
           <span className="eyebrow">{t.contact.eyebrow}</span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">{t.contact.title}</h2>
-          <p className="mt-3 text-muted">{t.contact.sub}</p>
+          <h2 data-reveal className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">{t.contact.title}</h2>
+          <p data-reveal className="mt-3 text-muted">{t.contact.sub}</p>
           <div className="mt-12 grid gap-8 lg:grid-cols-[1.3fr_1fr]">
-            <form onSubmit={onSubmit} className="rounded-xl2 border border-line bg-white p-7 shadow-sm">
+            <form data-reveal onSubmit={onSubmit} className="rounded-xl2 border border-line bg-white p-7 shadow-sm">
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field label={t.contact.name} ph={t.contact.namePh} name="name" required />
                 <Field label={t.contact.email} ph={t.contact.emailPh} name="email" type="email" required />
@@ -229,7 +332,7 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
               {state === "error" && <p className="mt-4 text-sm text-red-500">{lang === "ro" ? "A apărut o eroare. Încearcă din nou." : "Something went wrong. Please try again."}</p>}
             </form>
 
-            <div className="rounded-xl2 bg-ink p-8 text-white">
+            <div data-reveal style={{ transitionDelay: "120ms" }} className="rounded-xl2 bg-ink p-8 text-white">
               <div className="text-lg font-semibold">{t.contact.detailsTitle}</div>
               <ul className="mt-6 space-y-4 text-sm">
                 <li className="flex items-center gap-3">{I.mail({ className: "h-5 w-5 text-cyan-light" })}<a className="hover:text-cyan-light" href={`mailto:${info.email}`}>{info.email}</a></li>
@@ -239,8 +342,8 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
               </ul>
               <div className="mt-8 text-xs font-semibold uppercase tracking-widest text-muted2">{t.contact.follow}</div>
               <div className="mt-3 flex gap-3">
-                <a href={info.facebook} className="rounded-lg border border-white/15 px-4 py-2 text-sm hover:border-cyan">Facebook</a>
-                <a href={info.linkedin} className="rounded-lg border border-white/15 px-4 py-2 text-sm hover:border-cyan">LinkedIn</a>
+                <a href={info.facebook} className="rounded-lg border border-white/15 px-4 py-2 text-sm transition hover:border-cyan" >Facebook</a>
+                <a href={info.linkedin} className="rounded-lg border border-white/15 px-4 py-2 text-sm transition hover:border-cyan">LinkedIn</a>
               </div>
             </div>
           </div>

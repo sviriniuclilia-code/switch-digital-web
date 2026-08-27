@@ -20,9 +20,140 @@ body {
     @apply text-xs font-semibold uppercase tracking-[0.18em] text-cyan-dark;
   }
   .btn-primary {
-    @apply inline-flex items-center gap-2 rounded-full bg-cyan px-6 py-3 text-sm font-semibold text-ink transition hover:bg-cyan-light focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2;
+    @apply inline-flex items-center gap-2 rounded-full bg-cyan px-6 py-3 text-sm font-semibold text-ink transition duration-200 hover:-translate-y-0.5 hover:bg-cyan-light hover:shadow-lg hover:shadow-cyan/25 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2;
   }
   .btn-ghost {
-    @apply inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-semibold text-ink transition hover:border-ink/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan;
+    @apply inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-semibold text-ink transition duration-200 hover:-translate-y-0.5 hover:border-ink/30 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan;
+  }
+}
+
+/* ---------- Animații ---------- */
+/* Toate animațiile se dezactivează automat dacă utilizatorul
+   preferă mișcare redusă (setare de accesibilitate). */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Apariție lină la scroll */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: opacity, transform;
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Switch-ul din Hero — se "conectează" (comutatorul alunecă și se aprinde) */
+  .switch-knob {
+    transform: translateX(-104px);
+    transform-box: view-box;
+    transition: transform 1.05s cubic-bezier(0.34, 1.4, 0.5, 1);
+  }
+  .switch-anim.is-visible .switch-knob {
+    transform: translateX(0);
+  }
+
+  .switch-track {
+    transition: stroke 0.9s ease;
+  }
+  .switch-anim.is-visible .switch-track {
+    stroke: #0e7490;
+  }
+
+  .switch-anim.is-visible .switch-glow {
+    animation: switchPulse 2.8s ease-in-out 0.95s infinite;
+  }
+  @keyframes switchPulse {
+    0%, 100% { opacity: 0.22; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Inelul de "semnal" care se propagă la conectare (o singură dată) */
+  .switch-ripple {
+    opacity: 0;
+    transform-box: view-box;
+    transform-origin: 150px 60px;
+  }
+  .switch-anim.is-visible .switch-ripple {
+    animation: switchRipple 0.9s ease-out 0.82s 1 forwards;
+  }
+  @keyframes switchRipple {
+    0% { opacity: 0.6; transform: scale(0.55); }
+    100% { opacity: 0; transform: scale(1.55); }
+  }
+
+  /* Valori — bifa se desenează + insigna face un mic "pop" */
+  .value-badge {
+    transform: scale(0.7);
+    opacity: 0.5;
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s, opacity 0.45s ease 0.15s;
+  }
+  [data-reveal].is-visible .value-badge {
+    transform: scale(1);
+    opacity: 1;
+  }
+  .value-check path {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+  }
+  [data-reveal].is-visible .value-check path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.55s ease 0.35s;
+  }
+}
+
+/* ---- Panoul de status din pătratul Hero ---- */
+/* Pătratul se luminează, iar serviciile se activează pe rând.
+   Funcționează în ambele moduri; la "mișcare redusă" apare direct aprins. */
+.switch-anim {
+  transition: background-color 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+}
+.switch-anim.is-visible {
+  background-color: rgba(6, 182, 212, 0.07);
+  border-color: rgba(6, 182, 212, 0.28);
+  box-shadow: inset 0 0 44px rgba(6, 182, 212, 0.12), 0 14px 50px rgba(6, 182, 212, 0.10);
+}
+.switch-row {
+  opacity: 0.4;
+  transition: opacity 0.5s ease;
+}
+.switch-row .switch-dot {
+  background: #334155;
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+}
+.switch-row .switch-chk {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.switch-anim.is-visible .switch-row { opacity: 1; }
+.switch-anim.is-visible .switch-row .switch-dot {
+  background: #06b6d4;
+  box-shadow: 0 0 11px rgba(34, 211, 238, 0.7);
+}
+.switch-anim.is-visible .switch-row .switch-chk { opacity: 1; }
+
+/* activarea pe rând (una după alta) */
+.switch-anim.is-visible .switch-row:nth-child(1),
+.switch-anim.is-visible .switch-row:nth-child(1) .switch-dot,
+.switch-anim.is-visible .switch-row:nth-child(1) .switch-chk { transition-delay: 0.95s; }
+.switch-anim.is-visible .switch-row:nth-child(2),
+.switch-anim.is-visible .switch-row:nth-child(2) .switch-dot,
+.switch-anim.is-visible .switch-row:nth-child(2) .switch-chk { transition-delay: 1.20s; }
+.switch-anim.is-visible .switch-row:nth-child(3),
+.switch-anim.is-visible .switch-row:nth-child(3) .switch-dot,
+.switch-anim.is-visible .switch-row:nth-child(3) .switch-chk { transition-delay: 1.45s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .switch-row,
+  .switch-row .switch-dot,
+  .switch-row .switch-chk,
+  .switch-anim {
+    transition: none !important;
+  }
+  .switch-anim.is-visible .switch-row,
+  .switch-anim.is-visible .switch-row .switch-dot,
+  .switch-anim.is-visible .switch-row .switch-chk {
+    transition-delay: 0s !important;
   }
 }
