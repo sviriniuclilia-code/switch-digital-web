@@ -1,0 +1,47 @@
+# Switch Digital
+
+> Consultanță și implementare de soluții digitale pentru antreprenori și companii mici și mijlocii din Republica Moldova. Principiul central: întâi extragem tot ce se poate din instrumentele pe care compania le are deja, apoi completăm doar ce lipsește cu adevărat.
+
+Switch Digital SRL — Chișinău, Moldova. Fondator: Lilia Sviriniuc, șapte ani în management și implementare de soluții digitale, inclusiv sisteme ERP în companii din Moldova.
+
+## Ce face Switch Digital
+
+- Analiză și consultanță de procese — ce merită digitalizat și cu ce prioritate
+- Alegerea soluțiilor potrivite — Microsoft 365, Google Workspace, Odoo și altele, folosite la maximum
+- Implementare și automatizare
+- Optimizare și suport pe termen lung
+- Pregătire și integrare AI
+
+## Poziționare
+
+Majoritatea companiilor folosesc sub jumătate din soluțiile digitale pentru care plătesc deja — Office 365 rămâne Word, Excel și un loc de ținut fișiere; Odoo e folosit pentru o singură funcție, deși acoperă aproape tot ce-i trebuie unei afaceri. Când ceva nu merge, se cumpără altceva, mai comod, rareori mai bun.
+
+Switch Digital lucrează invers: întâi scoate valoarea din ce există, apoi adaugă ce lipsește.
+
+Nu e legată de un anumit furnizor de software: alege soluția potrivită nevoii clientului, nu potrivește clientul unei soluții.
+
+## Despre AI
+
+Inteligența artificială nu înlocuiește sistemele digitale — lucrează pe ele. AI răspunde pe baza datelor la care are acces; dacă informația e împrăștiată prin email, WhatsApp și convorbiri nescrise, nu are ce citi. Ordinea corectă: procese ordonate, date într-un singur loc, apoi AI.
+
+Distincția care contează: AI ca unealtă de birou (scris, traduceri, rezumate) funcționează imediat, fără pregătire. AI pe datele afacerii (analiză, raportare, relația cu clienții) are nevoie de sisteme configurate și date corecte.
+
+## Primul pas
+
+Diagnostic gratuit: o discuție despre procesele clientului, urmată de un rezumat scris cu ce merită digitalizat și în ce ordine. Fără costuri și fără obligația de a continua. Prețul unui proiect se stabilește după plan, pe baza efortului estimat și a unei rate orare, iar estimarea e comunicată înainte de începerea lucrului.
+
+## Pagini
+
+- [Pagina principală (română)](https://switchdigital.md/)
+- [Întrebări frecvente (română)](https://switchdigital.md/intrebari-frecvente)
+- [Homepage (English)](https://switchdigital.md/en)
+- [FAQ (English)](https://switchdigital.md/en/faq)
+- [Главная (русский)](https://switchdigital.md/ru)
+- [Вопросы и ответы (русский)](https://switchdigital.md/ru/faq)
+
+## Contact
+
+- Email: contact@switchdigital.md
+- Telefon: +373 60 360 488
+- LinkedIn: https://www.linkedin.com/company/switchdigitalmd
+- Locație: Chișinău, Moldova
