@@ -342,8 +342,12 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
               </ul>
               <div className="mt-8 text-xs font-semibold uppercase tracking-widest text-muted2">{t.contact.follow}</div>
               <div className="mt-3 flex gap-3">
-                <a href={info.facebook} className="rounded-lg border border-white/15 px-4 py-2 text-sm transition hover:border-cyan" >Facebook</a>
-                <a href={info.linkedin} className="rounded-lg border border-white/15 px-4 py-2 text-sm transition hover:border-cyan">LinkedIn</a>
+                {info.facebook && (
+                  <a href={info.facebook} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-white/15 px-4 py-2 text-sm transition hover:border-cyan">Facebook</a>
+                )}
+                {info.linkedin && (
+                  <a href={info.linkedin} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-white/15 px-4 py-2 text-sm transition hover:border-cyan">LinkedIn</a>
+                )}
               </div>
             </div>
           </div>

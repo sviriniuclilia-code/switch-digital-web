@@ -3,12 +3,12 @@ export type Lang = "ro" | "en";
 export const content = {
   ro: {
     nav: { services: "Servicii", about: "Despre", process: "Proces", contact: "Contact" },
-    cta: "Solicită o consultație",
+    cta: "Diagnostic gratuit",
     hero: {
       badge: "Chișinău, Moldova",
       title: "Mai puține aplicații, costuri mai mici, procese care chiar merg.",
       sub: "Pentru antreprenori și IMM-uri: identificăm soluțiile digitale potrivite și le folosim la maximum — fără licențe inutile.",
-      primary: "Solicită o consultație",
+      primary: "Diagnostic gratuit",
       secondary: "Vezi serviciile",
     },
     stats: [
@@ -58,8 +58,8 @@ export const content = {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Scrie-ne câteva rânduri",
-      sub: "Îți răspundem în cel mai scurt timp posibil.",
+      title: "Hai să vedem unde pierzi timp",
+      sub: "Îți facem un diagnostic al proceselor și primești un rezumat scris cu ce merită digitalizat și în ce ordine. Gratuit, fără obligații.",
       name: "Nume",
       namePh: "Numele tău",
       email: "Email",
@@ -78,12 +78,12 @@ export const content = {
 
   en: {
     nav: { services: "Services", about: "About", process: "Process", contact: "Contact" },
-    cta: "Request a consultation",
+    cta: "Free assessment",
     hero: {
       badge: "Chișinău, Moldova",
       title: "Fewer apps, lower costs, processes that actually work.",
       sub: "For entrepreneurs and small businesses: we identify the right digital solutions and use them to the fullest — with no unnecessary licenses.",
-      primary: "Request a consultation",
+      primary: "Free assessment",
       secondary: "See services",
     },
     stats: [
@@ -133,8 +133,8 @@ export const content = {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Write us a few lines",
-      sub: "We'll get back to you as soon as possible.",
+      title: "Let's find where you're losing time",
+      sub: "We assess your processes and you get a written summary of what's worth digitizing and in what order. Free, no strings attached.",
       name: "Name",
       namePh: "Your name",
       email: "Email",
@@ -156,6 +156,6 @@ export const contactInfo = {
   email: "contact@switchdigital.md",
   phone: "+373 60 360 488",
   location: "Chișinău, Moldova",
-  facebook: "https://facebook.com",
-  linkedin: "https://linkedin.com",
+  facebook: "",
+  linkedin: "https://www.linkedin.com/company/switcdigital",
 };
