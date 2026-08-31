@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/api/admin/leads":{},"/api/admin/content":{},"/api/admin/login":{},"/api/admin/logout":{},"/":{},"/api/lead":{}}}
+{"version":1,"functions":{"/api/admin/logout":{},"/api/admin/leads":{},"/api/admin/content":{},"/":{},"/api/lead":{},"/api/admin/login":{}}}

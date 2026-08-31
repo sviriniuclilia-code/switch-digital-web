@@ -96,6 +96,19 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
   const isLight = headerState === "light";
   const isOver = headerState === "over";
 
+  /* Header și panoul de meniu împart aceeași suprafață.
+     Cu meniul deschis, header-ul devine solid chiar dacă e sus de tot — altfel
+     bara transparentă și lista solidă arată ca două componente diferite. */
+  const headerSurface = isLight
+    ? `border-line/70 ${menuOpen ? "bg-white/95" : "bg-white/85"}`
+    : isOver || menuOpen
+      ? `border-white/10 ${menuOpen ? "bg-ink/95" : "bg-ink/85"}`
+      : "border-transparent bg-transparent";
+
+  const panelSurface = isLight
+    ? "border-line/70 bg-white/95"
+    : "border-white/10 bg-ink/95";
+
   /* Linkurile din meniu — o singură listă pentru desktop și mobil.
      Ca să adaugi o pagină nouă (ex. /blog), adaugi un rând aici și apare în ambele. */
   const navLinks = [
@@ -195,7 +208,7 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
   return (
     <main className="bg-white">
       {/* Header */}
-      <header className={`sticky top-0 z-50 border-b backdrop-blur transition-colors duration-300 ${isLight ? "border-line/70 bg-white/85" : isOver ? "border-white/10 bg-ink/85" : "border-transparent bg-transparent"}`}>
+      <header className={`sticky top-0 z-50 border-b backdrop-blur transition-colors duration-300 ${headerSurface}`}>
         <div className="container-x flex h-16 items-center justify-between">
           <a href="#top">{isLight ? <Logo compact /> : <Logo dark compact />}</a>
           <nav className={`hidden items-center gap-8 text-sm font-medium transition-colors duration-300 md:flex ${isLight ? "text-ink" : "text-white"}`}>
@@ -220,14 +233,14 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
         </div>
 
         {menuOpen && (
-          <nav className={`border-t backdrop-blur md:hidden ${isLight ? "border-line/70 bg-white/95" : "border-white/10 bg-ink/95"}`}>
-            <div className="container-x flex flex-col py-2">
+          <nav className={`absolute inset-x-0 top-full border-b border-t shadow-lg shadow-ink/10 backdrop-blur md:hidden ${panelSurface}`}>
+            <div className="container-x flex flex-col">
               {navLinks.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`py-3 text-sm font-medium transition-colors hover:text-cyan ${isLight ? "text-ink" : "text-white"}`}
+                  className={`border-b py-4 text-base font-medium transition-colors last:border-b-0 ${isLight ? "border-line/60 text-ink hover:text-cyan-dark" : "border-white/10 text-white hover:text-cyan-light"}`}
                 >
                   {l.label}
                 </a>
