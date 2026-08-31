@@ -6,8 +6,8 @@ export const content = {
     cta: "Solicită o consultație",
     hero: {
       badge: "Chișinău, Moldova",
-      title: "Afacerea ta, digitalizată și optimizată.",
-      sub: "Identificăm soluțiile digitale potrivite nevoilor tale și le folosim la maximum — cu costuri minime, fără licențe inutile.",
+      title: "Mai puține aplicații, costuri mai mici, procese care chiar merg.",
+      sub: "Pentru antreprenori și IMM-uri: identificăm soluțiile digitale potrivite și le folosim la maximum — fără licențe inutile.",
       primary: "Solicită o consultație",
       secondary: "Vezi serviciile",
     },
@@ -81,8 +81,8 @@ export const content = {
     cta: "Request a consultation",
     hero: {
       badge: "Chișinău, Moldova",
-      title: "Your business, digitized and optimized.",
-      sub: "We identify the right digital solutions for your needs and use them to the fullest — at minimal cost, with no unnecessary licenses.",
+      title: "Fewer apps, lower costs, processes that actually work.",
+      sub: "For entrepreneurs and small businesses: we identify the right digital solutions and use them to the fullest — with no unnecessary licenses.",
       primary: "Request a consultation",
       secondary: "See services",
     },
