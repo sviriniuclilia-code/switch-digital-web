@@ -1,3 +1,6 @@
 {
+  "/icon.svg/route": "app/icon.svg/route.js",
+  "/intrebari-frecvente/page": "app/intrebari-frecvente/page.js",
+  "/ru/faq/page": "app/ru/faq/page.js",
   "/page": "app/page.js"
 }

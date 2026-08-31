@@ -3,9 +3,18 @@ export type Lang = "ro" | "en" | "ru";
 export const locales: Lang[] = ["ro", "en", "ru"];
 export const defaultLocale: Lang = "ro";
 
+/* Adresa paginii de întrebări frecvente în fiecare limbă.
+   Adresele diferă intenționat: fiecare limbă merită un cuvânt pe care
+   oamenii chiar îl caută. Folosită și de comutatorul de limbă din Header. */
+export const faqPath: Record<Lang, string> = {
+  ro: "/intrebari-frecvente",
+  en: "/en/faq",
+  ru: "/ru/faq",
+};
+
 export const content = {
   ro: {
-    nav: { services: "Servicii", about: "Despre", process: "Proces", contact: "Contact" },
+    nav: { services: "Servicii", about: "Despre", process: "Proces", contact: "Contact", faq: "Întrebări frecvente" },
     cta: "Diagnostic gratuit",
     hero: {
       badge: "Chișinău, Moldova",
@@ -61,6 +70,22 @@ export const content = {
       founderRole: "Fondator",
       founderBio: "Șapte ani în management și implementare de soluții digitale: am coordonat echipe mari, pe care le-am optimizat și digitalizat, am implementat sisteme ERP în companii din Moldova. Peste tot am văzut același lucru: Office 365 redus la Word și stocare de fișiere, Odoo folosit pentru o singură funcție — deși acoperă aproape tot ce-i trebuie unei afaceri. Soluția era mereu să se cumpere altceva. Am pornit Switch Digital ca să schimb ordinea asta — și s-o fac pentru cât mai multe afaceri, nu doar pentru una.",
     },
+    faq: {
+      eyebrow: "Întrebări frecvente",
+      title: "Ce ne întreabă cel mai des",
+      sub: "Dacă nu găsești răspunsul aici, scrie-ne — adăugăm întrebarea.",
+      items: [
+        { q: "Ce înseamnă, concret, „diagnostic gratuit”?", a: "O discuție despre procesele tale, urmată de un rezumat scris: ce merită digitalizat la tine și în ce ordine. Fără costuri și fără obligația de a continua cu noi. Rezumatul rămâne al tău — îl poți folosi singur sau cu altcineva." },
+        { q: "Cât costă?", a: "Depinde de ce se dovedește necesar — de aceea prețul vine după plan, nu înainte. Stabilim întâi ce merită făcut și în ce ordine, apoi estimăm efortul și îl calculăm la o rată orară. Primești estimarea înainte să înceapă lucrul, nu la final." },
+        { q: "Cât durează?", a: "Depinde destul de mult, așa că nu-ți dăm o cifră înainte să ne uităm. Un proiect poate însemna câteva săptămâni sau două-trei luni, iar diferența o fac trei lucruri: dacă ai deja sisteme sau pornim de la zero, cât de așezate sunt procesele tale, și cât de disponibilă e echipa ta pentru întrebări și instruire. Planul pe care îl primești după diagnostic conține termene, nu doar costuri." },
+        { q: "Ce se întâmplă după diagnostic?", a: "Primești rezumatul și decizi tu. Dacă vrei să mergem mai departe, îți facem o ofertă cu pași, costuri și termene clare. Dacă nu, nu te caută nimeni săptămânal." },
+        { q: "Am deja un om de IT. De ce aș avea nevoie de voi?", a: "Probabil chiar poate să implementeze. Un specialist care cunoaște bine funcționalitățile duce treaba la capăt — are nevoie doar de indicații unde anume merită intervenit. Diferența e în altă parte: analiza fluxurilor de lucru. A ști cum funcționează un sistem nu e același lucru cu a ști ce proces din firma ta merită schimbat, în ce ordine și de ce. De aceea putem lucra și doar până acolo: facem analiza și planul de implementare, iar omul tău îl duce mai departe." },
+        { q: "Am deja Microsoft 365. Ce mai puteți face pentru mine?", a: "De obicei, destul de mult. Majoritatea companiilor folosesc sub jumătate din ce plătesc deja — Office 365 rămâne Word, Excel și un loc de ținut fișiere, deși acoperă mult mai mult. Primul lucru pe care îl căutăm nu e ce să cumperi, ci ce ai și nu folosești." },
+        { q: "Sunteți legați de un anumit furnizor de software?", a: "Nu. Alegem soluția potrivită nevoii tale, nu te potrivim pe tine unei soluții. Lucrăm cu Microsoft 365, Google Workspace, Odoo și altele — iar dacă ce ai deja acoperă nevoia, îți spunem asta în loc să-ți vindem altceva." },
+        { q: "Lucrați doar cu companii mari?", a: "Nu, dimpotrivă. Lucrăm cu antreprenori și firme mici și mijlocii. La scara asta se văd cel mai repede rezultatele: sunt mai puține sisteme de aliniat și deciziile se iau fără trei niveluri de aprobare." },
+        { q: "Dacă folosesc AI, mai am nevoie de sisteme digitale?", a: "Da. AI-ul nu le înlocuiește, lucrează pe ele — răspunde pe baza datelor la care are acces. Dacă informația despre clienți e împrăștiată prin email, WhatsApp și convorbiri pe care nu le-a notat nimeni, n-are ce citi. Sistemele digitale sunt locul unde datele devin structurate, iar acolo AI-ul chiar ajută." },
+      ],
+    },
     contact: {
       eyebrow: "Contact",
       title: "Hai să vedem unde pierzi timp",
@@ -84,7 +109,7 @@ export const content = {
   },
 
   en: {
-    nav: { services: "Services", about: "About", process: "Process", contact: "Contact" },
+    nav: { services: "Services", about: "About", process: "Process", contact: "Contact", faq: "FAQ" },
     cta: "Free assessment",
     hero: {
       badge: "Chișinău, Moldova",
@@ -140,6 +165,22 @@ export const content = {
       founderRole: "Founder",
       founderBio: "Seven years in management and digital-solution implementation: I've led large teams, optimizing and digitizing them, and implemented ERP systems in companies across Moldova. Everywhere I saw the same thing: Office 365 reduced to Word and file storage, Odoo used for a single function, though it covers almost everything a business needs. The answer was always to buy something new. I started Switch Digital to reverse that order — and to do it for as many businesses as possible, not just one.",
     },
+    faq: {
+      eyebrow: "FAQ",
+      title: "What people ask us most",
+      sub: "If your question isn't here, write to us — we'll add it.",
+      items: [
+        { q: "What exactly is the free assessment?", a: "A conversation about your processes, followed by a written summary: what's worth digitizing and in what order. No cost, no obligation to continue with us. The summary is yours — use it on your own or with someone else." },
+        { q: "What does it cost?", a: "It depends on what turns out to be needed — which is why the price comes after the plan, not before. We first establish what's worth doing and in what order, then estimate the effort and calculate it at an hourly rate. You get the estimate before work starts, not at the end." },
+        { q: "How long does it take?", a: "It varies quite a bit, so we won't give you a number before we've looked. A project can mean a few weeks or two to three months, and three things make the difference: whether you already have systems or we start from scratch, how settled your processes are, and how available your team is for questions and training. The plan you get after the assessment includes timelines, not just costs." },
+        { q: "What happens after the assessment?", a: "You get the summary and you decide. If you want to go further, we prepare an offer with clear steps, costs and timelines. If not, nobody calls you every week." },
+        { q: "We already have an IT person. Why would we need you?", a: "They probably can implement it. A specialist who knows the functionality well will get it done — they just need guidance on where it's worth intervening. The difference is elsewhere: analyzing the workflows. Knowing how a system works isn't the same as knowing which process in your company is worth changing, in what order, and why. So we can also work just that far: we do the analysis and the implementation plan, and your person takes it from there." },
+        { q: "We already have Microsoft 365. What more can you do?", a: "Usually quite a lot. Most companies use less than half of what they already pay for — Office 365 stays Word, Excel and a place to keep files, though it covers far more. The first thing we look for isn't what you should buy, but what you have and don't use." },
+        { q: "Are you tied to a particular software vendor?", a: "No. We pick the right solution for your need, we don't fit you to a solution. We work with Microsoft 365, Google Workspace, Odoo and others — and if what you already have covers the need, we'll tell you that instead of selling you something else." },
+        { q: "Do you only work with large companies?", a: "No, quite the opposite. We work with entrepreneurs and small to medium businesses. At that scale results show fastest: there are fewer systems to align and decisions don't need three levels of approval." },
+        { q: "If I use AI, do I still need digital systems?", a: "Yes. AI doesn't replace them, it runs on them — it answers based on the data it can access. If your customer information is scattered across email, WhatsApp and calls nobody wrote down, there's nothing for it to read. Digital systems are where data becomes structured, and that's where AI actually helps." },
+      ],
+    },
     contact: {
       eyebrow: "Contact",
       title: "Let's find where you're losing time",
@@ -163,7 +204,7 @@ export const content = {
   },
 
   ru: {
-    nav: { services: "Услуги", about: "О нас", process: "Процесс", contact: "Контакты" },
+    nav: { services: "Услуги", about: "О нас", process: "Процесс", contact: "Контакты", faq: "Вопросы и ответы" },
     cta: "Бесплатная диагностика",
     hero: {
       badge: "Кишинёв, Молдова",
@@ -181,13 +222,13 @@ export const content = {
     services: {
       eyebrow: "Услуги",
       title: "Что мы делаем для вашего бизнеса",
-      sub: "Оцифруйте сегодня, чтобы завтра использовать AI.",
+      sub: "Оцифруйте сегодня, чтобы завтра использовать ИИ.",
       items: [
         { icon: "search", title: "Анализ и консалтинг процессов", desc: "Разбираем ваши процессы и цели и показываем, что именно стоит оцифровать и в каком порядке." },
         { icon: "layers", title: "Подбор подходящих решений", desc: "Находим SaaS-инструменты, которые закрывают ваши задачи с минимальными затратами — Microsoft 365, Google Workspace, Odoo — используемые на полную, без лишних лицензий." },
         { icon: "bolt", title: "Внедрение и автоматизация", desc: "Настраиваем системы, автоматизируем рутинные задачи и связываем всё, чем вы пользуетесь." },
         { icon: "headset", title: "Оптимизация и поддержка", desc: "Следим, улучшаем и остаёмся рядом надолго." },
-        { icon: "sparkles", title: "Подготовка и внедрение AI", desc: "AI работает только на упорядоченных процессах и чистых данных. Сначала приводим их в порядок, затем внедряем инструменты, которые дают реальную пользу." },
+        { icon: "sparkles", title: "Подготовка и внедрение ИИ", desc: "ИИ работает только на упорядоченных процессах и чистых данных. Сначала приводим их в порядок, затем внедряем инструменты, которые дают реальную пользу." },
       ],
     },
     values: {
@@ -218,6 +259,22 @@ export const content = {
       founderName: "Lilia Sviriniuc",
       founderRole: "Основатель",
       founderBio: "Семь лет в управлении и внедрении цифровых решений: я руководила большими командами, оптимизировала и оцифровывала их работу, внедряла ERP-системы в компаниях Молдовы. Везде я видела одно и то же: Office 365, сведённый к Word и хранению файлов; Odoo, используемый для одной функции — хотя он закрывает почти всё, что нужно бизнесу. Решением всегда была покупка чего-то нового. Я основала Switch Digital, чтобы изменить этот порядок — и делать это для многих компаний, а не для одной.",
+    },
+    faq: {
+      eyebrow: "Вопросы и ответы",
+      title: "О чём нас спрашивают чаще всего",
+      sub: "Если вашего вопроса здесь нет — напишите нам, и мы его добавим.",
+      items: [
+        { q: "Что такое «бесплатная диагностика» на практике?", a: "Разговор о ваших процессах и письменное резюме: что стоит оцифровать и в каком порядке. Бесплатно и без обязательства работать с нами дальше. Резюме остаётся у вас — можете использовать его сами или с кем-то другим." },
+        { q: "Сколько это стоит?", a: "Зависит от того, что окажется нужным — поэтому цена появляется после плана, а не до него. Сначала определяем, что стоит делать и в каком порядке, затем оцениваем объём работы и считаем его по часовой ставке. Оценку вы получаете до начала работ, а не в конце." },
+        { q: "Сколько времени это займёт?", a: "По-разному, поэтому мы не называем срок, пока не посмотрим. Проект может занять несколько недель или два-три месяца, и разницу определяют три вещи: есть ли у вас системы или начинаем с нуля, насколько выстроены процессы и насколько ваша команда доступна для вопросов и обучения. План, который вы получаете после диагностики, содержит сроки, а не только стоимость." },
+        { q: "Что происходит после диагностики?", a: "Вы получаете резюме и решаете сами. Если хотите продолжить, готовим предложение с понятными шагами, стоимостью и сроками. Если нет — вам никто не звонит каждую неделю." },
+        { q: "У нас уже есть свой IT-специалист. Зачем нам вы?", a: "Скорее всего, он действительно может это внедрить. Специалист, который хорошо знает функциональность, доведёт дело до конца — ему нужны только указания, где именно стоит вмешаться. Разница в другом: в анализе рабочих процессов. Знать, как работает система, — не то же самое, что понимать, какой процесс в вашей компании стоит менять, в каком порядке и зачем. Поэтому мы можем сделать только эту часть: анализ и план внедрения, а ваш специалист продолжит сам." },
+        { q: "У нас уже есть Microsoft 365. Что ещё вы можете сделать?", a: "Обычно довольно много. Большинство компаний используют меньше половины того, за что уже платят: Office 365 остаётся Word, Excel и местом для файлов, хотя умеет гораздо больше. Первое, что мы ищем, — не что вам купить, а что у вас есть и не используется." },
+        { q: "Вы привязаны к конкретному поставщику ПО?", a: "Нет. Мы подбираем решение под вашу задачу, а не подгоняем вас под решение. Работаем с Microsoft 365, Google Workspace, Odoo и другими — и если то, что у вас уже есть, закрывает потребность, мы так и скажем, вместо того чтобы продавать что-то ещё." },
+        { q: "Вы работаете только с крупными компаниями?", a: "Нет, скорее наоборот. Мы работаем с предпринимателями и малым и средним бизнесом. На этом масштабе результат виден быстрее всего: меньше систем нужно согласовывать, а решения принимаются без трёх уровней утверждения." },
+        { q: "Если я использую ИИ, нужны ли мне цифровые системы?", a: "Да. ИИ их не заменяет, он работает на них — отвечает на основе данных, к которым имеет доступ. Если информация о клиентах разбросана по почте, WhatsApp и звонкам, которые никто не записал, читать ему нечего. Цифровые системы — это место, где данные становятся структурированными, и именно там ИИ действительно помогает." },
+      ],
     },
     contact: {
       eyebrow: "Контакты",

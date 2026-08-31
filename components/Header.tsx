@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import type { Lang } from "@/lib/content";
-import { locales, defaultLocale } from "@/lib/content";
+import { locales, defaultLocale, faqPath } from "@/lib/content";
 import Logo from "./Logo";
 import { I } from "./icons";
 
@@ -53,13 +53,18 @@ export default function Header({
     { href: anchor("servicii"), label: t.nav.services },
     { href: anchor("proces"), label: t.nav.process },
     { href: anchor("despre"), label: t.nav.about },
+    { href: faqPath[lang], label: t.nav.faq },
     { href: anchor("contact"), label: t.nav.contact },
   ];
 
-  /* Adresa aceleiași pagini în altă limbă. */
+  /* Adresa aceleiași pagini în altă limbă.
+     Paginile cu adrese diferite pe limbă (FAQ) sunt tratate separat —
+     altfel comutatorul ar căuta „/en/intrebari-frecvente", care nu există. */
+  const onFaq = Object.values(faqPath).includes(pathname);
   const bare = pathname.replace(/^\/(en|ru)(?=\/|$)/, "") || "/";
   const hrefFor = (l: Lang) =>
-    alternates?.[l] ?? (l === defaultLocale ? bare : `/${l}${bare === "/" ? "" : bare}`);
+    alternates?.[l] ??
+    (onFaq ? faqPath[l] : l === defaultLocale ? bare : `/${l}${bare === "/" ? "" : bare}`);
   const otherLangs = locales.filter((l) => l !== lang);
 
   /* Header în trei stări: transparent sus, închis peste hero, alb dedesubt.
