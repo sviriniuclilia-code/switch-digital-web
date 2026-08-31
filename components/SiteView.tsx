@@ -16,17 +16,20 @@ const I = {
   globe: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18" /></svg>),
   check: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m20 6-11 11-5-5" /></svg>),
   arrow: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>),
+  menu: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg>),
+  close: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 6l12 12M18 6L6 18" /></svg>),
 };
 
-function Logo({ dark = false }: { dark?: boolean }) {
+function Logo({ dark = false, compact = false }: { dark?: boolean; compact?: boolean }) {
   // dark = pe fundal închis (pătrat alb, „S" închis, text alb)
+  // compact = pe mobil se afișează doar pătratul cu „S", ca să rămână loc în bară
   return (
     <span className="inline-flex items-center gap-2.5">
       <span className={`relative grid h-9 w-9 place-items-center rounded-[10px] transition-colors duration-300 ${dark ? "bg-white" : "bg-ink"}`}>
         <span className={`text-lg font-bold leading-none transition-colors duration-300 ${dark ? "text-ink" : "text-white"}`}>S</span>
         <span className="absolute bottom-1.5 right-1.5 h-1 w-2.5 rounded-full bg-cyan" />
       </span>
-      <span className={`text-lg font-bold tracking-tight transition-colors duration-300 ${dark ? "text-white" : "text-ink"}`}>
+      <span className={`text-lg font-bold tracking-tight transition-colors duration-300 ${compact ? "hidden sm:inline" : ""} ${dark ? "text-white" : "text-ink"}`}>
         Switch <span className={`transition-colors duration-300 ${dark ? "text-cyan-light" : "text-cyan-dark"}`}>Digital</span>
       </span>
     </span>
@@ -87,10 +90,27 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
   const [lang, setLang] = useState<Lang>("ro");
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [headerState, setHeaderState] = useState<"top" | "over" | "light">("top");
+  const [menuOpen, setMenuOpen] = useState(false);
   const t = data[lang];
   const info = data.info;
   const isLight = headerState === "light";
   const isOver = headerState === "over";
+
+  /* Linkurile din meniu — o singură listă pentru desktop și mobil.
+     Ca să adaugi o pagină nouă (ex. /blog), adaugi un rând aici și apare în ambele. */
+  const navLinks = [
+    { href: "#servicii", label: t.nav.services },
+    { href: "#proces", label: t.nav.process },
+    { href: "#despre", label: t.nav.about },
+    { href: "#contact", label: t.nav.contact },
+  ];
+
+  /* Meniul mobil se închide singur când ecranul devine destul de lat */
+  useEffect(() => {
+    const onResize = () => { if (window.innerWidth >= 768) setMenuOpen(false); };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   /* Header în trei stări: transparent sus, închis peste Hero, alb dedesubt */
   useEffect(() => {
@@ -169,20 +189,44 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
       {/* Header */}
       <header className={`sticky top-0 z-50 border-b backdrop-blur transition-colors duration-300 ${isLight ? "border-line/70 bg-white/85" : isOver ? "border-white/10 bg-ink/85" : "border-transparent bg-transparent"}`}>
         <div className="container-x flex h-16 items-center justify-between">
-          <a href="#top">{isLight ? <Logo /> : <Logo dark />}</a>
+          <a href="#top">{isLight ? <Logo compact /> : <Logo dark compact />}</a>
           <nav className={`hidden items-center gap-8 text-sm font-medium transition-colors duration-300 md:flex ${isLight ? "text-ink" : "text-white"}`}>
-            <a className="transition-colors hover:text-cyan" href="#servicii">{t.nav.services}</a>
-            <a className="transition-colors hover:text-cyan" href="#proces">{t.nav.process}</a>
-            <a className="transition-colors hover:text-cyan" href="#despre">{t.nav.about}</a>
-            <a className="transition-colors hover:text-cyan" href="#contact">{t.nav.contact}</a>
+            {navLinks.map((l) => (
+              <a key={l.href} className="transition-colors hover:text-cyan" href={l.href}>{l.label}</a>
+            ))}
           </nav>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <button onClick={() => setLang(lang === "ro" ? "en" : "ro")} className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors duration-300 ${isLight ? "border-line text-ink hover:border-cyan" : "border-white/30 text-white hover:border-cyan"}`} aria-label="Change language">
               {lang === "ro" ? "EN" : "RO"}
             </button>
-            <a href="#contact" className="btn-primary hidden sm:inline-flex">{t.cta}</a>
+            <a href="#contact" className="btn-primary whitespace-nowrap px-3 py-2 text-xs sm:px-5 sm:py-2.5 sm:text-sm">{t.cta}</a>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"}
+              className={`rounded-lg border p-2 transition-colors duration-300 md:hidden ${isLight ? "border-line text-ink" : "border-white/30 text-white"}`}
+            >
+              {menuOpen ? I.close({ className: "h-5 w-5" }) : I.menu({ className: "h-5 w-5" })}
+            </button>
           </div>
         </div>
+
+        {menuOpen && (
+          <nav className={`border-t backdrop-blur md:hidden ${isLight ? "border-line/70 bg-white/95" : "border-white/10 bg-ink/95"}`}>
+            <div className="container-x flex flex-col py-2">
+              {navLinks.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`py-3 text-sm font-medium transition-colors hover:text-cyan ${isLight ? "text-ink" : "text-white"}`}
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+        )}
       </header>
 
       {/* Hero */}
@@ -304,7 +348,7 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
           </div>
           <div data-reveal style={{ transitionDelay: "120ms" }} className="rounded-xl2 border border-line bg-white p-8 shadow-lg shadow-ink/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink/10">
             <div className="flex items-center gap-4">
-              <img src="/lilia.jpg" alt="Lilia Sviriniuc" className="h-28 w-28 rounded-full object-cover" />
+              <img src="/lilia.jpg" alt="Lilia Sviriniuc" className="h-20 w-20 rounded-full object-cover" />
               <div>
                 <div className="font-semibold text-ink">{t.about.founderName}</div>
                 <div className="text-sm text-cyan-dark">{t.about.founderRole}</div>
