@@ -304,7 +304,7 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
           </div>
           <div data-reveal style={{ transitionDelay: "120ms" }} className="rounded-xl2 border border-line bg-white p-8 shadow-lg shadow-ink/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink/10">
             <div className="flex items-center gap-4">
-              <img src="/lilia.jpg" alt="Lilia Sviriniuc" className="h-20 w-20 rounded-full object-cover" />
+              <img src="/lilia.jpg" alt="Lilia Sviriniuc" className="h-28 w-28 rounded-full object-cover" />
               <div>
                 <div className="font-semibold text-ink">{t.about.founderName}</div>
                 <div className="text-sm text-cyan-dark">{t.about.founderRole}</div>
