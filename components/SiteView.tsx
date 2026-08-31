@@ -112,6 +112,14 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  /* Meniul mobil se închide cu tasta Escape */
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
   /* Header în trei stări: transparent sus, închis peste Hero, alb dedesubt */
   useEffect(() => {
     const getThreshold = () => {
@@ -228,6 +236,15 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
           </nav>
         )}
       </header>
+
+      {/* Strat invizibil sub meniul mobil: click oriunde în afara meniului îl închide */}
+      {menuOpen && (
+        <div
+          onClick={() => setMenuOpen(false)}
+          className="fixed inset-0 z-40 bg-ink/20 md:hidden"
+          aria-hidden
+        />
+      )}
 
       {/* Hero */}
       <section id="top" className="relative -mt-16 overflow-hidden bg-ink pt-16 text-white">
