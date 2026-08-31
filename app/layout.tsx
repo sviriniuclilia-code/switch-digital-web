@@ -14,15 +14,21 @@ const poppins = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Switch Digital — Tehnologia care îți optimizează afacerea",
+  metadataBase: new URL("https://switchdigital.md"),
+  // `template` se aplică paginilor viitoare (FAQ, blog): titlul lor + „· Switch Digital".
+  // Paginile care vor titlu complet propriu folosesc `title: { absolute: "..." }`.
+  title: {
+    default: "Switch Digital — Tehnologia care îți optimizează afacerea",
+    template: "%s · Switch Digital",
+  },
   description:
     "Consultanță și implementare de soluții digitale accesibile pentru afaceri. Identificăm instrumentele potrivite și le folosim la maximum, cu costuri minime.",
-  metadataBase: new URL("https://switchdigital.md"),
   openGraph: {
     title: "Switch Digital",
     description: "Tehnologia care îți optimizează afacerea.",
     locale: "ro_RO",
     type: "website",
+    siteName: "Switch Digital",
   },
 };
 

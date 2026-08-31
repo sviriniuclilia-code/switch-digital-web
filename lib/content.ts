@@ -1,4 +1,7 @@
-export type Lang = "ro" | "en";
+export type Lang = "ro" | "en" | "ru";
+
+export const locales: Lang[] = ["ro", "en", "ru"];
+export const defaultLocale: Lang = "ro";
 
 export const content = {
   ro: {
@@ -11,6 +14,7 @@ export const content = {
       primary: "Diagnostic gratuit",
       secondary: "Vezi serviciile",
     },
+    switchRows: ["Soluții digitale", "Optimizare", "Procese stabilite"],
     stats: [
       { k: "100%", v: "Soluții pe măsură" },
       { k: "4 pași", v: "De la analiză la suport" },
@@ -70,6 +74,8 @@ export const content = {
       message: "Mesaj",
       messagePh: "Spune-ne despre afacerea ta și ce vrei să optimizezi.",
       send: "Trimite mesajul",
+      sent: "Mesajul a fost trimis. Îți mulțumim!",
+      error: "A apărut o eroare. Încearcă din nou.",
       detailsTitle: "Date de contact",
       follow: "Urmărește-ne",
       note: "Formularul va fi conectat la backendul securizat în Modulul 2.",
@@ -87,6 +93,7 @@ export const content = {
       primary: "Free assessment",
       secondary: "See services",
     },
+    switchRows: ["Digital solutions", "Optimization", "Established processes"],
     stats: [
       { k: "100%", v: "Tailored solutions" },
       { k: "4 steps", v: "From analysis to support" },
@@ -146,11 +153,92 @@ export const content = {
       message: "Message",
       messagePh: "Tell us about your business and what you'd like to optimize.",
       send: "Send message",
+      sent: "Message sent. Thank you!",
+      error: "Something went wrong. Please try again.",
       detailsTitle: "Contact details",
       follow: "Follow us",
       note: "The form will be connected to the secure backend in Module 2.",
     },
     footer: { rights: "All rights reserved.", tagline: "Technology that optimizes your business." },
+  },
+
+  ru: {
+    nav: { services: "Услуги", about: "О нас", process: "Процесс", contact: "Контакты" },
+    cta: "Бесплатная диагностика",
+    hero: {
+      badge: "Кишинёв, Молдова",
+      title: "Меньше приложений, ниже затраты, процессы, которые работают.",
+      sub: "Для предпринимателей и малого бизнеса: подбираем подходящие цифровые решения и используем их на полную — без лишних лицензий.",
+      primary: "Бесплатная диагностика",
+      secondary: "Смотреть услуги",
+    },
+    switchRows: ["Цифровые решения", "Оптимизация", "Выстроенные процессы"],
+    stats: [
+      { k: "100%", v: "Решения под задачу" },
+      { k: "4 шага", v: "От анализа до поддержки" },
+      { k: "0 сложностей", v: "Всё объясняем простыми словами" },
+    ],
+    services: {
+      eyebrow: "Услуги",
+      title: "Что мы делаем для вашего бизнеса",
+      sub: "Оцифруйте сегодня, чтобы завтра использовать AI.",
+      items: [
+        { icon: "search", title: "Анализ и консалтинг процессов", desc: "Разбираем ваши процессы и цели и показываем, что именно стоит оцифровать и в каком порядке." },
+        { icon: "layers", title: "Подбор подходящих решений", desc: "Находим SaaS-инструменты, которые закрывают ваши задачи с минимальными затратами — Microsoft 365, Google Workspace, Odoo — используемые на полную, без лишних лицензий." },
+        { icon: "bolt", title: "Внедрение и автоматизация", desc: "Настраиваем системы, автоматизируем рутинные задачи и связываем всё, чем вы пользуетесь." },
+        { icon: "headset", title: "Оптимизация и поддержка", desc: "Следим, улучшаем и остаёмся рядом надолго." },
+        { icon: "sparkles", title: "Подготовка и внедрение AI", desc: "AI работает только на упорядоченных процессах и чистых данных. Сначала приводим их в порядок, затем внедряем инструменты, которые дают реальную пользу." },
+      ],
+    },
+    values: {
+      eyebrow: "Почему Switch Digital",
+      title: "Пять принципов, которыми мы руководствуемся",
+      items: [
+        { title: "Доступность", desc: "Решения, которые может позволить себе любой бизнес." },
+        { title: "Простота", desc: "Превращаем техническую сложность в понятные шаги." },
+        { title: "Прозрачность", desc: "Честные рекомендации, ясные цены и сроки с самого начала." },
+        { title: "Экспертиза", desc: "Выбираем технологию под вашу задачу, а не модную." },
+        { title: "Партнёрство", desc: "Остаёмся с вами после внедрения, а не только в коммерческом предложении." },
+      ],
+    },
+    process: {
+      eyebrow: "Процесс",
+      title: "Как мы работаем, в 4 шага",
+      steps: [
+        { n: "01", title: "Анализ", desc: "Разбираемся в вашем бизнесе, процессах и целях." },
+        { n: "02", title: "Решение и план", desc: "Подбираем решение под задачу и бюджет и представляем понятный план со сроками и стоимостью." },
+        { n: "03", title: "Внедрение", desc: "Настраиваем, интегрируем и обучаем команду." },
+        { n: "04", title: "Долгосрочная поддержка", desc: "Постоянно улучшаем и остаёмся на связи." },
+      ],
+    },
+    about: {
+      eyebrow: "О нас",
+      title: "Наша миссия",
+      mission: "Компании платят за цифровые решения, которые используют меньше чем наполовину — и покупают новые. Мы идём от обратного: сначала извлекаем всё возможное из того, что у вас уже есть, а затем добавляем только то, чего действительно не хватает.",
+      founderName: "Lilia Sviriniuc",
+      founderRole: "Основатель",
+      founderBio: "Семь лет в управлении и внедрении цифровых решений: я руководила большими командами, оптимизировала и оцифровывала их работу, внедряла ERP-системы в компаниях Молдовы. Везде я видела одно и то же: Office 365, сведённый к Word и хранению файлов; Odoo, используемый для одной функции — хотя он закрывает почти всё, что нужно бизнесу. Решением всегда была покупка чего-то нового. Я основала Switch Digital, чтобы изменить этот порядок — и делать это для многих компаний, а не для одной.",
+    },
+    contact: {
+      eyebrow: "Контакты",
+      title: "Давайте посмотрим, где вы теряете время",
+      sub: "Проводим диагностику ваших процессов, и вы получаете письменное резюме: что стоит оцифровать и в каком порядке. Бесплатно, без обязательств.",
+      name: "Имя",
+      namePh: "Ваше имя",
+      email: "Email",
+      emailPh: "email@primer.md",
+      phone: "Телефон",
+      phonePh: "+373 ...",
+      message: "Сообщение",
+      messagePh: "Расскажите о своём бизнесе и о том, что хотите улучшить.",
+      send: "Отправить сообщение",
+      sent: "Сообщение отправлено. Спасибо!",
+      error: "Произошла ошибка. Попробуйте ещё раз.",
+      detailsTitle: "Контактные данные",
+      follow: "Мы в соцсетях",
+      note: "Форма будет подключена к защищённому бэкенду в Модуле 2.",
+    },
+    footer: { rights: "Все права защищены.", tagline: "Технологии, которые оптимизируют ваш бизнес." },
   },
 } as const;
 

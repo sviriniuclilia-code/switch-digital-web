@@ -7,12 +7,14 @@ import { content, contactInfo } from "./content";
 export type SiteData = {
   ro: any;
   en: any;
+  ru: any;
   info: typeof contactInfo;
 };
 
 export const defaults: SiteData = {
   ro: content.ro,
   en: content.en,
+  ru: content.ru,
   info: contactInfo,
 };
 
@@ -22,8 +24,14 @@ export async function getSiteContent(): Promise<SiteData> {
     await ensureSchema();
     const rows = await db.select().from(siteContent).where(eq(siteContent.id, 1)).limit(1);
     if (rows.length) {
-      const r = rows[0];
-      return { ro: r.ro as any, en: r.en as any, info: r.info as any };
+      const r = rows[0] as any;
+      return {
+        ro: r.ro,
+        en: r.en,
+        // Baza de date poate fi mai veche decât codul și să nu aibă încă rusa.
+        ru: r.ru ?? content.ru,
+        info: r.info,
+      };
     }
   } catch {
     // baza de date indisponibilă → folosim valorile implicite

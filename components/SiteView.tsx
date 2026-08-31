@@ -2,39 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import type { Lang } from "@/lib/content";
-
-/* ---------- icons ---------- */
-const I = {
-  search: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>),
-  layers: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z" /><path d="m3 13 9 5 9-5" /></svg>),
-  bolt: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M13 3 5 13h6l-1 8 8-10h-6l1-8Z" /></svg>),
-  sparkles: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z" /><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8L18 15Z" /></svg>),
-  headset: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 13a8 8 0 0 1 16 0" /><path d="M4 13v3a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2Zm16 0v3a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2Z" /></svg>),
-  mail: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>),
-  phone: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6.8 3.5h3.2l1.4 3.9-2 1.3a12 12 0 0 0 5.1 5.1l1.3-2 3.9 1.4v3.2a1.9 1.9 0 0 1-2.1 1.9A17 17 0 0 1 4.9 5.6 1.9 1.9 0 0 1 6.8 3.5Z" /></svg>),
-  pin: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s6.5-6 6.5-10.5a6.5 6.5 0 1 0-13 0C5.5 15 12 21 12 21Z" /><circle cx="12" cy="10.5" r="2.4" /></svg>),
-  globe: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18" /></svg>),
-  check: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m20 6-11 11-5-5" /></svg>),
-  arrow: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>),
-  menu: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg>),
-  close: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 6l12 12M18 6L6 18" /></svg>),
-};
-
-function Logo({ dark = false, compact = false }: { dark?: boolean; compact?: boolean }) {
-  // dark = pe fundal închis (pătrat alb, „S" închis, text alb)
-  // compact = pe mobil se afișează doar pătratul cu „S", ca să rămână loc în bară
-  return (
-    <span className="inline-flex items-center gap-2.5">
-      <span className={`relative grid h-9 w-9 place-items-center rounded-[10px] transition-colors duration-300 ${dark ? "bg-white" : "bg-ink"}`}>
-        <span className={`text-lg font-bold leading-none transition-colors duration-300 ${dark ? "text-ink" : "text-white"}`}>S</span>
-        <span className="absolute bottom-1.5 right-1.5 h-1 w-2.5 rounded-full bg-cyan" />
-      </span>
-      <span className={`text-lg font-bold tracking-tight transition-colors duration-300 ${compact ? "hidden sm:inline" : ""} ${dark ? "text-white" : "text-ink"}`}>
-        Switch <span className={`transition-colors duration-300 ${dark ? "text-cyan-light" : "text-cyan-dark"}`}>Digital</span>
-      </span>
-    </span>
-  );
-}
+import Header from "./Header";
+import Footer from "./Footer";
+import Logo from "./Logo";
+import { I } from "./icons";
 
 /* Numărătoare crescătoare pentru statistici (ex. 0 → 100%) */
 function CountUp({ value }: { value: string }) {
@@ -86,75 +57,16 @@ function CountUp({ value }: { value: string }) {
 
 type Info = { email: string; phone: string; location: string; facebook: string; linkedin: string };
 
-export default function SiteView({ data }: { data: { ro: any; en: any; info: Info } }) {
-  const [lang, setLang] = useState<Lang>("ro");
+export default function SiteView({
+  data,
+  lang,
+}: {
+  data: { ro: any; en: any; ru?: any; info: Info };
+  lang: Lang;
+}) {
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const [headerState, setHeaderState] = useState<"top" | "over" | "light">("top");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const t = data[lang];
+  const t = (data as any)[lang];
   const info = data.info;
-  const isLight = headerState === "light";
-  const isOver = headerState === "over";
-
-  /* Header și panoul de meniu împart aceeași suprafață.
-     Cu meniul deschis, header-ul devine solid chiar dacă e sus de tot — altfel
-     bara transparentă și lista solidă arată ca două componente diferite. */
-  const headerSurface = isLight
-    ? `border-line/70 ${menuOpen ? "bg-white/95" : "bg-white/85"}`
-    : isOver || menuOpen
-      ? `border-white/10 ${menuOpen ? "bg-ink/95" : "bg-ink/85"}`
-      : "border-transparent bg-transparent";
-
-  const panelSurface = isLight
-    ? "border-line/70 bg-white/95"
-    : "border-white/10 bg-ink/95";
-
-  /* Linkurile din meniu — o singură listă pentru desktop și mobil.
-     Ca să adaugi o pagină nouă (ex. /blog), adaugi un rând aici și apare în ambele. */
-  const navLinks = [
-    { href: "#servicii", label: t.nav.services },
-    { href: "#proces", label: t.nav.process },
-    { href: "#despre", label: t.nav.about },
-    { href: "#contact", label: t.nav.contact },
-  ];
-
-  /* Meniul mobil se închide singur când ecranul devine destul de lat */
-  useEffect(() => {
-    const onResize = () => { if (window.innerWidth >= 768) setMenuOpen(false); };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  /* Meniul mobil se închide cu tasta Escape */
-  useEffect(() => {
-    if (!menuOpen) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuOpen(false); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [menuOpen]);
-
-  /* Header în trei stări: transparent sus, închis peste Hero, alb dedesubt */
-  useEffect(() => {
-    const getThreshold = () => {
-      const hero = document.getElementById("top");
-      return hero ? hero.offsetHeight - 72 : 400;
-    };
-    let threshold = getThreshold();
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (y <= 8) setHeaderState("top");
-      else if (y > threshold) setHeaderState("light");
-      else setHeaderState("over");
-    };
-    const onResize = () => { threshold = getThreshold(); onScroll(); };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
 
   /* Apariție lină la scroll pentru elementele marcate cu data-reveal */
   useEffect(() => {
@@ -207,57 +119,7 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
 
   return (
     <main className="bg-white">
-      {/* Header */}
-      <header className={`sticky top-0 z-50 border-b backdrop-blur transition-colors duration-300 ${headerSurface}`}>
-        <div className="container-x flex h-16 items-center justify-between">
-          <a href="#top">{isLight ? <Logo compact /> : <Logo dark compact />}</a>
-          <nav className={`hidden items-center gap-8 text-sm font-medium transition-colors duration-300 md:flex ${isLight ? "text-ink" : "text-white"}`}>
-            {navLinks.map((l) => (
-              <a key={l.href} className="transition-colors hover:text-cyan" href={l.href}>{l.label}</a>
-            ))}
-          </nav>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <button onClick={() => setLang(lang === "ro" ? "en" : "ro")} className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors duration-300 ${isLight ? "border-line text-ink hover:border-cyan" : "border-white/30 text-white hover:border-cyan"}`} aria-label="Change language">
-              {lang === "ro" ? "EN" : "RO"}
-            </button>
-            <a href="#contact" className="btn-primary whitespace-nowrap px-3 py-2 text-xs sm:px-5 sm:py-2.5 sm:text-sm">{t.cta}</a>
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"}
-              className={`rounded-lg border p-2 transition-colors duration-300 md:hidden ${isLight ? "border-line text-ink" : "border-white/30 text-white"}`}
-            >
-              {menuOpen ? I.close({ className: "h-5 w-5" }) : I.menu({ className: "h-5 w-5" })}
-            </button>
-          </div>
-        </div>
-
-        {menuOpen && (
-          <nav className={`absolute inset-x-0 top-full border-b border-t shadow-lg shadow-ink/10 backdrop-blur md:hidden ${panelSurface}`}>
-            <div className="container-x flex flex-col">
-              {navLinks.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={`border-b py-4 text-base font-medium transition-colors last:border-b-0 ${isLight ? "border-line/60 text-ink hover:text-cyan-dark" : "border-white/10 text-white hover:text-cyan-light"}`}
-                >
-                  {l.label}
-                </a>
-              ))}
-            </div>
-          </nav>
-        )}
-      </header>
-
-      {/* Strat invizibil sub meniul mobil: click oriunde în afara meniului îl închide */}
-      {menuOpen && (
-        <div
-          onClick={() => setMenuOpen(false)}
-          className="fixed inset-0 z-40 bg-ink/20 md:hidden"
-          aria-hidden
-        />
-      )}
+      <Header lang={lang} t={t} />
 
       {/* Hero */}
       <section id="top" className="relative -mt-16 overflow-hidden bg-ink pt-16 text-white">
@@ -294,9 +156,9 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
                 </g>
               </svg>
               <div className="flex w-full max-w-[230px] flex-col gap-3.5">
-                {(lang === "ro"
+                {(t.switchRows as string[] | undefined ?? (lang === "ro"
                   ? ["Soluții digitale", "Optimizare", "Procese stabilite"]
-                  : ["Digital solutions", "Optimization", "Established processes"]
+                  : ["Digital solutions", "Optimization", "Established processes"])
                 ).map((label) => (
                   <div key={label} className="switch-row flex items-center gap-2.5 text-sm">
                     <span className="switch-dot h-2.5 w-2.5 shrink-0 rounded-full" />
@@ -377,8 +239,8 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
             <div className="mt-8"><Logo /></div>
           </div>
           <div data-reveal style={{ transitionDelay: "120ms" }} className="rounded-xl2 border border-line bg-white p-8 shadow-lg shadow-ink/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink/10">
-            <div className="flex items-center gap-4">
-              <img src="/lilia.jpg" alt="Lilia Sviriniuc" className="h-20 w-20 rounded-full object-cover" />
+            <div className="flex items-center gap-5">
+              <img src="/lilia.jpg" alt="Lilia Sviriniuc" className="h-28 w-28 rounded-full object-cover" />
               <div>
                 <div className="font-semibold text-ink">{t.about.founderName}</div>
                 <div className="text-sm text-cyan-dark">{t.about.founderRole}</div>
@@ -436,14 +298,7 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-ink text-white">
-        <div className="container-x flex flex-col items-center justify-between gap-4 py-10 sm:flex-row">
-          <Logo dark />
-          <p className="text-sm text-muted2">{t.footer.tagline}</p>
-          <p className="text-xs text-muted2">© 2026 Switch Digital. {t.footer.rights}</p>
-        </div>
-      </footer>
+      <Footer t={t} />
     </main>
   );
 }
