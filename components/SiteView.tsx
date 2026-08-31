@@ -8,6 +8,7 @@ const I = {
   search: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>),
   layers: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z" /><path d="m3 13 9 5 9-5" /></svg>),
   bolt: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M13 3 5 13h6l-1 8 8-10h-6l1-8Z" /></svg>),
+  sparkles: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z" /><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8L18 15Z" /></svg>),
   headset: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 13a8 8 0 0 1 16 0" /><path d="M4 13v3a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2Zm16 0v3a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2Z" /></svg>),
   mail: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>),
   phone: (p: any) => (<svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6.8 3.5h3.2l1.4 3.9-2 1.3a12 12 0 0 0 5.1 5.1l1.3-2 3.9 1.4v3.2a1.9 1.9 0 0 1-2.1 1.9A17 17 0 0 1 4.9 5.6 1.9 1.9 0 0 1 6.8 3.5Z" /></svg>),
@@ -85,18 +86,25 @@ type Info = { email: string; phone: string; location: string; facebook: string; 
 export default function SiteView({ data }: { data: { ro: any; en: any; info: Info } }) {
   const [lang, setLang] = useState<Lang>("ro");
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const [scrolled, setScrolled] = useState(false);
+  const [headerState, setHeaderState] = useState<"top" | "over" | "light">("top");
   const t = data[lang];
   const info = data.info;
+  const isLight = headerState === "light";
+  const isOver = headerState === "over";
 
-  /* Header: transparent peste Hero, alb când derulezi în secțiunile deschise */
+  /* Header în trei stări: transparent sus, închis peste Hero, alb dedesubt */
   useEffect(() => {
     const getThreshold = () => {
       const hero = document.getElementById("top");
       return hero ? hero.offsetHeight - 72 : 400;
     };
     let threshold = getThreshold();
-    const onScroll = () => setScrolled(window.scrollY > threshold);
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y <= 8) setHeaderState("top");
+      else if (y > threshold) setHeaderState("light");
+      else setHeaderState("over");
+    };
     const onResize = () => { threshold = getThreshold(); onScroll(); };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -159,17 +167,17 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
   return (
     <main className="bg-white">
       {/* Header */}
-      <header className={`sticky top-0 z-50 border-b transition-colors duration-300 ${scrolled ? "border-line/70 bg-white/85 backdrop-blur" : "border-transparent bg-transparent"}`}>
+      <header className={`sticky top-0 z-50 border-b backdrop-blur transition-colors duration-300 ${isLight ? "border-line/70 bg-white/85" : isOver ? "border-white/10 bg-ink/85" : "border-transparent bg-transparent"}`}>
         <div className="container-x flex h-16 items-center justify-between">
-          <a href="#top">{scrolled ? <Logo /> : <Logo dark />}</a>
-          <nav className={`hidden items-center gap-8 text-sm font-medium transition-colors duration-300 md:flex ${scrolled ? "text-ink" : "text-white"}`}>
+          <a href="#top">{isLight ? <Logo /> : <Logo dark />}</a>
+          <nav className={`hidden items-center gap-8 text-sm font-medium transition-colors duration-300 md:flex ${isLight ? "text-ink" : "text-white"}`}>
             <a className="transition-colors hover:text-cyan" href="#servicii">{t.nav.services}</a>
             <a className="transition-colors hover:text-cyan" href="#proces">{t.nav.process}</a>
             <a className="transition-colors hover:text-cyan" href="#despre">{t.nav.about}</a>
             <a className="transition-colors hover:text-cyan" href="#contact">{t.nav.contact}</a>
           </nav>
           <div className="flex items-center gap-3">
-            <button onClick={() => setLang(lang === "ro" ? "en" : "ro")} className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors duration-300 ${scrolled ? "border-line text-ink hover:border-cyan" : "border-white/30 text-white hover:border-cyan"}`} aria-label="Change language">
+            <button onClick={() => setLang(lang === "ro" ? "en" : "ro")} className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors duration-300 ${isLight ? "border-line text-ink hover:border-cyan" : "border-white/30 text-white hover:border-cyan"}`} aria-label="Change language">
               {lang === "ro" ? "EN" : "RO"}
             </button>
             <a href="#contact" className="btn-primary hidden sm:inline-flex">{t.cta}</a>
@@ -234,11 +242,11 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
           <span className="eyebrow">{t.services.eyebrow}</span>
           <h2 data-reveal className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">{t.services.title}</h2>
           <p data-reveal className="mt-3 max-w-xl text-muted">{t.services.sub}</p>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
             {t.services.items.map((s: any, i: number) => {
               const Icon = (I as any)[s.icon] || I.bolt;
               return (
-                <div key={s.title} data-reveal style={{ transitionDelay: `${i * 90}ms` }} className="rounded-xl2 border border-line bg-white p-7 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink/5">
+                <div key={s.title} data-reveal style={{ transitionDelay: `${i * 90}ms` }} className={`rounded-xl2 border border-line bg-white p-7 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink/5 lg:col-span-2 ${i === 3 ? "lg:col-start-2" : ""}`}>
                   <div className="grid h-12 w-12 place-items-center rounded-xl bg-cyan/10 text-cyan-dark"><Icon className="h-6 w-6" /></div>
                   <h3 className="mt-5 text-lg font-semibold text-ink">{s.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{s.desc}</p>
@@ -254,9 +262,9 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
         <div className="container-x py-20 md:py-24">
           <span className="eyebrow">{t.values.eyebrow}</span>
           <h2 data-reveal className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">{t.values.title}</h2>
-          <div className="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-6">
             {t.values.items.map((v: any, i: number) => (
-              <div key={v.title} data-reveal style={{ transitionDelay: `${i * 80}ms` }} className="flex gap-4">
+              <div key={v.title} data-reveal style={{ transitionDelay: `${i * 80}ms` }} className={`flex gap-4 lg:col-span-2 ${i === 3 ? "lg:col-start-2" : ""}`}>
                 <div className="value-badge mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-cyan/10 text-cyan-dark">{I.check({ className: "h-4 w-4 value-check" })}</div>
                 <div>
                   <h3 className="font-semibold text-ink">{v.title}</h3>
@@ -296,7 +304,7 @@ export default function SiteView({ data }: { data: { ro: any; en: any; info: Inf
           </div>
           <div data-reveal style={{ transitionDelay: "120ms" }} className="rounded-xl2 border border-line bg-white p-8 shadow-lg shadow-ink/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-ink/10">
             <div className="flex items-center gap-4">
-              <div className="grid h-14 w-14 place-items-center rounded-full bg-cyan/10 text-lg font-bold text-cyan-dark">LS</div>
+              <img src="/lilia.jpg" alt="Lilia Sviriniuc" className="h-20 w-20 rounded-full object-cover" />
               <div>
                 <div className="font-semibold text-ink">{t.about.founderName}</div>
                 <div className="text-sm text-cyan-dark">{t.about.founderRole}</div>

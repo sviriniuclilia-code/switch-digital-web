@@ -19,12 +19,13 @@ export const content = {
     services: {
       eyebrow: "Servicii",
       title: "Ce facem pentru afacerea ta",
-      sub: "De la analiză la sisteme care lucrează pentru tine.",
+      sub: "Digitalizează azi, ca să poți folosi AI mâine.",
       items: [
         { icon: "search", title: "Analiză și consultanță de procese", desc: "Îți analizăm procesele și obiectivele și îți arătăm exact ce merită digitalizat și cu ce prioritate." },
         { icon: "layers", title: "Alegerea soluțiilor potrivite", desc: "Identificăm instrumentele SaaS care îți acoperă nevoile cu costuri minime — Microsoft 365, Google Workspace, Odoo — folosite la maximum, fără licențe inutile." },
         { icon: "bolt", title: "Implementare și automatizare", desc: "Configurăm sistemele, automatizăm sarcinile repetitive și conectăm tot ce folosești." },
         { icon: "headset", title: "Optimizare și suport", desc: "Monitorizăm, îmbunătățim și rămânem alături pe termen lung." },
+        { icon: "sparkles", title: "Pregătire și integrare AI", desc: "AI funcționează doar pe procese ordonate și date curate. Le punem la punct, apoi integrăm instrumentele care aduc valoare reală." },
       ],
     },
     values: {
@@ -51,10 +52,10 @@ export const content = {
     about: {
       eyebrow: "Despre noi",
       title: "Misiunea noastră",
-      mission: "Să facem tehnologia performantă accesibilă oricărei afaceri — de la primul pas în digitalizare până la sisteme integrate.",
+      mission: "Companiile plătesc pentru soluții digitale din care nu folosesc nici jumătate — apoi cumpără altele. Noi pornim invers: întâi scoatem tot ce se poate din ce ai deja, apoi completăm doar ce lipsește cu adevărat.",
       founderName: "Lilia Sviriniuc",
       founderRole: "Fondator",
-      founderBio: "Manager cu experiență în coordonarea echipelor mari, pe care le-a optimizat și digitalizat. Experiența ulterioară în IT i-a adăugat structura și consecvența de care are nevoie orice proces de digitalizare. A implementat sisteme ERP în companii din Moldova — și aduce aceeași abordare, practică și orientată spre rezultat, la Switch Digital.",
+      founderBio: "Șapte ani în management și implementare de soluții digitale: am coordonat echipe mari, pe care le-am optimizat și digitalizat, am implementat sisteme ERP în companii din Moldova. Peste tot am văzut același lucru: Office 365 redus la Word și stocare de fișiere, Odoo folosit pentru o singură funcție — deși acoperă aproape tot ce-i trebuie unei afaceri. Soluția era mereu să se cumpere altceva. Am pornit Switch Digital ca să schimb ordinea asta — și s-o fac pentru cât mai multe afaceri, nu doar pentru una.",
     },
     contact: {
       eyebrow: "Contact",
@@ -94,12 +95,13 @@ export const content = {
     services: {
       eyebrow: "Services",
       title: "What we do for your business",
-      sub: "From analysis to systems that work for you.",
+      sub: "Digitize today, so you can use AI tomorrow.",
       items: [
         { icon: "search", title: "Process analysis & consulting", desc: "We analyze your processes and goals and show you exactly what's worth digitizing and in what order." },
         { icon: "layers", title: "Choosing the right solutions", desc: "We identify the SaaS tools that cover your needs at minimal cost — Microsoft 365, Google Workspace, Odoo — used to the fullest, with no unnecessary licenses." },
         { icon: "bolt", title: "Implementation & automation", desc: "We set up systems, automate repetitive tasks and connect everything you use." },
         { icon: "headset", title: "Optimization & support", desc: "We monitor, improve and stay with you for the long run." },
+        { icon: "sparkles", title: "AI readiness & integration", desc: "AI only works on organized processes and clean data. We put those in order first, then integrate the tools that bring real value." },
       ],
     },
     values: {
@@ -126,10 +128,10 @@ export const content = {
     about: {
       eyebrow: "About us",
       title: "Our mission",
-      mission: "To make high-performing technology accessible to any business — from the first step in digitization to integrated systems.",
+      mission: "Companies pay for digital tools they use less than half of — then buy more. We start the other way around: first we get everything out of what you already have, then we add only what's genuinely missing.",
       founderName: "Lilia Sviriniuc",
       founderRole: "Founder",
-      founderBio: "A manager experienced in leading large teams, which she optimized and digitized. Her later IT experience added the structure and consistency any digitization process needs. She has implemented ERP systems in companies in Moldova — and brings the same practical, results-driven approach to Switch Digital.",
+      founderBio: "Seven years in management and digital-solution implementation: I've led large teams, optimizing and digitizing them, and implemented ERP systems in companies across Moldova. Everywhere I saw the same thing: Office 365 reduced to Word and file storage, Odoo used for a single function, though it covers almost everything a business needs. The answer was always to buy something new. I started Switch Digital to reverse that order — and to do it for as many businesses as possible, not just one.",
     },
     contact: {
       eyebrow: "Contact",
@@ -157,5 +159,5 @@ export const contactInfo = {
   phone: "+373 60 360 488",
   location: "Chișinău, Moldova",
   facebook: "",
-  linkedin: "https://www.linkedin.com/company/switcdigital",
+  linkedin: "https://www.linkedin.com/company/switchdigitalmd",
 };
